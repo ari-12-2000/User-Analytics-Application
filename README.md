@@ -8,7 +8,7 @@ A simple full-stack user analytics application built for the CausalFunnel assign
 - **Backend API:** Node.js, Express.js
 - **Database:** MongoDB with Mongoose
 - **Tracking Script:** Vanilla JavaScript
-- **Deployment:** Backend can be hosted on Render; frontend can be hosted on Vercel or any Next.js-compatible platform
+- **Deployment:** Backend is hosted on Render; the frontend dashboard and demo tracking app are hosted on Vercel
 
 ## Features
 
@@ -28,13 +28,27 @@ frontend/   Next.js analytics dashboard
 tracking/   Vanilla JS tracker and demo HTML page
 ```
 
-## Setup Steps
+## Live Demo
+
+Open these two apps in separate browser tabs:
+
+### 1. Main User Analytics Dashboard
+
+https://user-analytics-application.vercel.app/
+
+### 2. Demo App for Generating Tracked Activity
+
+https://test-app-with-tracker-script.vercel.app
+
+Use the demo app to generate page views and clicks. Then open the main dashboard to view sessions and heatmap data.
+
+## Setup Steps To Install and Run Locally
 
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repository-url>
-cd "User Analytics Application"
+git clone https://github.com/ari-12-2000/User-Analytics-Application.git
+cd "User-Analytics-Application"
 ```
 
 ### 2. Set up MongoDB
@@ -98,6 +112,18 @@ Create a `.env.local` file inside the `frontend` folder:
 NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
+If the backend is deployed, replace the above value with the deployed backend URL:
+
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-url.example.com
+```
+
+You can also use the deployed backend API:
+
+```env
+NEXT_PUBLIC_API_URL=https://user-analytics-application-q5gu.onrender.com
+```
+
 Start the frontend:
 
 ```bash
@@ -119,7 +145,7 @@ Dashboard pages:
 
 ### 5. Test the tracking script
 
-Open `tracking/demo.html` in a browser.
+Open `tracking/index.html` in a browser.
 
 The demo page includes the tracker script:
 
@@ -135,7 +161,16 @@ If the backend is deployed, replace the endpoint with the deployed backend URL:
 ```html
 <script
   src="./tracker.js"
-  data-endpoint="https://your-backend-url.onrender.com/api/events">
+  data-endpoint="https://your-backend-url.example.com/api/events">
+</script>
+```
+
+You can also use the deployed backend endpoint:
+
+```html
+<script
+  src="./tracker.js"
+  data-endpoint="https://user-analytics-application-q5gu.onrender.com/api/events">
 </script>
 ```
 
@@ -159,5 +194,6 @@ Visit the demo page and click around. Then open the dashboard to view sessions a
 
 - The heatmap is a simple visual dot map rather than a full density-based heatmap. This satisfies the requirement to display click positions visually while avoiding unnecessary charting complexity.
 
-- This demo does not include login or separate accounts. It assumes all analytics data is for one project only.
+- CORS is currently configured to allow requests from any origin for easier demo testing. In a production application, it should be restricted to the company's approved frontend domains only.
 
+- This demo does not include login or separate accounts. It assumes all analytics data is for one project only.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { getSessionEvents, getSessions } from "@/lib/api";
 import type { AnalyticsEvent, SessionSummary } from "@/lib/types";
 import SessionsTable from "@/components/SessionsTable";
@@ -16,19 +16,26 @@ export default function SessionsPage() {
   const [eventsLoading, setEventsLoading] = useState(false);
   const [listError, setListError] = useState<string | null>(null);
   const [eventsError, setEventsError] = useState<string | null>(null);
+  const eventsRequestId = useRef(0);
 
   // Standalone event loader — can be called independently of selectedId changing
   const loadEvents = useCallback(async (id: string) => {
+    const requestId = eventsRequestId.current + 1;
+    eventsRequestId.current = requestId;
     setEventsLoading(true);
     setEventsError(null);
     try {
       const data = await getSessionEvents(id);
+      if (eventsRequestId.current !== requestId) return;
       setEvents(data.events);
     } catch (e) {
+      if (eventsRequestId.current !== requestId) return;
       setEventsError(e instanceof Error ? e.message : "Failed to load events");
       setEvents([]);
     } finally {
-      setEventsLoading(false);
+      if (eventsRequestId.current === requestId) {
+        setEventsLoading(false);
+      }
     }
   }, []);
 
@@ -56,40 +63,22 @@ export default function SessionsPage() {
 
   // Initial load
   useEffect(() => {
-    loadSessions();
+    void Promise.resolve().then(loadSessions);
   }, [loadSessions]);
 
   // Fetch events whenever the selected session changes
   useEffect(() => {
-    if (!selectedId) {
-      setEvents([]);
-      return;
-    }
-    let cancelled = false;
-
-    setEventsLoading(true);
-    setEventsError(null);
-
-    getSessionEvents(selectedId)
-      .then((data) => {
-        if (!cancelled) setEvents(data.events);
-      })
-      .catch((e) => {
-        if (!cancelled) {
-          setEventsError(
-            e instanceof Error ? e.message : "Failed to load events",
-          );
-          setEvents([]);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setEventsLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedId]);
+    void Promise.resolve().then(() => {
+      if (!selectedId) {
+        eventsRequestId.current += 1;
+        setEvents([]);
+        setEventsError(null);
+        setEventsLoading(false);
+        return;
+      }
+      return loadEvents(selectedId);
+    });
+  }, [selectedId, loadEvents]);
 
   return (
     <div className="space-y-4">
