@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Analytics Tracker Demo</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:system-ui,sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background:#f5f7fb;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:24px;
+    }
+
+    .card{
+      width:100%;
+      max-width:700px;
+      background:white;
+      border-radius:18px;
+      padding:32px;
+      box-shadow:
+      0 10px 30px rgba(0,0,0,.08);
+    }
+
+    h1{
+      margin-bottom:12px;
+      color:#111827;
+    }
+
+    p{
+      color:#52525b;
+      line-height:1.7;
+      margin-bottom:14px;
+    }
+
+    code{
+      background:#f4f4f5;
+      padding:2px 6px;
+      border-radius:6px;
+      font-size:.9rem;
+    }
+
+    .actions{
+      margin-top:24px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    button,
+    a.button{
+      border:none;
+      padding:12px 18px;
+      border-radius:10px;
+      cursor:pointer;
+      text-decoration:none;
+      font-weight:600;
+      transition:.2s;
+    }
+
+    button:hover,
+    a.button:hover{
+      transform:translateY(-2px);
+    }
+
+    .primary{
+      background:#2563eb;
+      color:white;
+    }
+
+    .secondary{
+      background:#e4e4e7;
+      color:#111;
+    }
+
+    .linkBtn{
+      background:#10b981;
+      color:white;
+    }
+
+    .status{
+      margin-top:28px;
+      padding:14px;
+      border-radius:10px;
+      background:#eff6ff;
+      color:#1d4ed8;
+      font-size:.95rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h1>📊 User Analytics Tracker Demo</h1>
+
+  <p>
+    This page records:
+  </p>
+
+  <ul style="padding-left:18px; line-height:1.8; color:#444;">
+    <li>Page views (<code>page_view</code>)</li>
+    <li>User clicks (<code>click</code>)</li>
+    <li>Click coordinates for heatmap generation</li>
+    <li>Session-based analytics</li>
+  </ul>
+
+  <p style="margin-top:18px">
+    Open <strong>DevTools → Network</strong> to see requests sent to:
+
+    <code>POST /api/events</code>
+  </p>
+
+  <div class="actions">
+      <button class="primary">
+        Primary Action
+      </button>
+
+      <button class="secondary">
+        Secondary Action
+      </button>
+
+      <a href="#section"
+         class="button linkBtn">
+         Visit Section
+      </a>
+  </div>
+
+  <div class="status">
+      Tracker active →
+      Events are being sent to your analytics backend.
+  </div>
+
+</div>
+
+
+<script
+ src="./tracker.js"
+ data-endpoint="http://localhost:3001/api/events">
+</script>
+
+</body>
+</html>
