@@ -33,7 +33,7 @@ export default function RootLayout({
           <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                CausalFunnel
+                Dream Company
               </p>
               <h1 className="text-lg font-semibold tracking-tight">
                 User Analytics

@@ -1,6 +1,6 @@
 # User Analytics Application
 
-A simple full-stack user analytics application built for the CausalFunnel assignment. It tracks page views and clicks from a demo webpage, stores events in MongoDB, and displays session journeys and click heatmap data in a Next.js dashboard.
+A simple full-stack user analytics application which tracks page views and clicks from a demo webpage, stores events in MongoDB, and displays session journeys and click heatmap data in a Next.js dashboard.
 
 ## Tech Stack
 
